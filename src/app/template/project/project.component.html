@@ -1,0 +1,232 @@
+<!-- Affichage de la liste des projets -->
+<div class="col-lg-12 grid-margin stretch-card" *ngIf="page==='list'">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">Inverse table</h4>
+      <p class="card-description"> List Of Projects</p>
+
+
+      <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch" style="margin-bottom: 20px;">
+        <div class="ml-auto">
+          <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" (click)="pageCreate()">+ Create New Project</a>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-dark">
+          <thead>
+            <tr>
+              <th> Id </th>
+              <th> User id </th>
+              <th> Name </th>
+              <th> Description </th>
+              <th> Start date </th>
+              <th> End date</th>
+              <th> Status</th>
+              <th> Actions</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let project of projects">
+            <tr>
+              <td> {{ project.id }}</td>
+              <td> {{ project.user_id}} </td>
+              <td> {{ project.name }}</td>
+              <td> {{ project.description }}</td>
+              <td> {{ project.start_date }}</td>
+              <td> {{ project.end_date }}</td>
+              <td> {{ project.status }}</td>
+              <td>
+                <button (click)="pageUpdate(project)" type="button" class="btn btn-warning btn-rounded btn-fw">Update</button>
+                &nbsp;&nbsp;
+                <button (click)="pageDelete()" type="button" class="btn btn-danger btn-rounded btn-fw">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- fin Affichage -->
+
+
+
+<!-- Formulaire de creation d'un projet -->
+<div class="col-12 grid-margin" *ngIf="page==='create'">
+  <div class="card">
+    <div class="card-body" >
+      <h4 class="card-title">Create Project</h4>
+      <form class="form-sample">
+        <p class="card-description"> Project info </p>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Name</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" [(ngModel)]="newProject.name" name="name"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Description</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" [(ngModel)]="newProject.description" name="description"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Start Date</label>
+              <div class="col-sm-9">
+                <input type="date" class="form-control" [(ngModel)]="newProject.start_date" name="start_date"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">End Date</label>
+              <div class="col-sm-9">
+                <input type="date" class="form-control" [(ngModel)]="newProject.end_date" name="end_date" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Status</label>
+              <div class="col-sm-9">
+                <select class="form-control" [(ngModel)]="newProject.status" name="status">
+                  <option [value]="true">Active</option>
+                  <option [value]="false">End</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">User id</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" [(ngModel)]="newProject.user_id" name="user_id" />
+              </div>
+            </div>
+          </div>
+          <!-- <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">User</label>
+              <div class="col-sm-9">
+                <select class="form-control" [(ngModel)]="newProject.user_id">
+                  <option *ngFor="let user of users" [value]="user.username">{{ user.id }}</option>
+                </select>
+              </div>
+            </div>
+          </div> -->
+        </div>
+
+      </form>
+      <div class="text-center"  style="margin-top: 40px;">
+        <button (click)="createProject()" type="button" class="btn btn-success btn-rounded btn-fw">Submit</button>
+        <button (click)="goBack()" type="button" class="btn btn-link btn-rounded btn-fw">Go back</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- fin Formulaire -->
+
+
+
+<!-- Formulaire de mise a jour d'un projet -->
+<div class="col-12 grid-margin">
+  <div class="card">
+    <div class="card-body" *ngIf="projectSelect">
+      <h4 class="card-title">Update Project</h4>
+      <form class="form-sample">
+        <p class="card-description"> Project info </p>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Name</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" [(ngModel)]="projectSelect.name"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Description</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" [(ngModel)]="projectSelect.description" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Start Date</label>
+              <div class="col-sm-9">
+                <input type="date" class="form-control" [(ngModel)]="projectSelect.start_date"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">End Date</label>
+              <div class="col-sm-9">
+                <input type="date" class="form-control" [(ngModel)]="projectSelect.end_date" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Status</label>
+              <div class="col-sm-9">
+                <select class="form-control" [(ngModel)]="projectSelect.status">
+                  <option>Active</option>
+                  <option>End</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">User</label>
+              <div class="col-sm-9">
+                <select class="form-control" [(ngModel)]="projectSelect.user_id">
+                  <option *ngFor="let user of users" [value]="user.username">{{ user.username }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </form>
+      <div class="text-center"  style="margin-top: 40px;"></div>
+        <button (click)="updateProject(projectSelect.id,projectSelect)" type="button" class="btn btn-success btn-rounded btn-fw">Update info</button>
+        <button (click)="goBack()" type="button" class="btn btn-link btn-rounded btn-fw">Go back</button>
+      </div>
+  </div>
+</div>
+<!-- fin Formulaire -->
+
+
+
+<!-- Confirmation de suppression d'un projet -->
+<div *ngIf="page === 'delete'">
+  <h2>Delete Project</h2>
+  <p>Do you really want to delete this project?</p>
+  <div *ngFor="let project of projects">
+      <p>{{ project.name }}</p>
+      <div class="text-center"  style="margin-top: 40px;">
+        <button (click)="deleteProject(project.id)" type="button" class="btn btn-info btn-rounded btn-fw">Confirm</button>
+        <button (click)="goBack()" type="button" class="btn btn-link btn-rounded btn-fw">Go back</button>
+      </div>
+      </div>
+
+</div>
+<!-- fin suppression -->

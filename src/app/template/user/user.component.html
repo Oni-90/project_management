@@ -1,0 +1,227 @@
+<!-- Affichage de la liste de utilisateurs -->
+<div class="col-lg-12 grid-margin stretch-card" *ngIf="page==='list'">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">Inverse table</h4>
+      <p class="card-description"> List Of Users <code></code>
+      </p>
+
+      <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch" style="margin-bottom: 20px;">
+        <div class="ml-auto">
+          <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" (click)="pageRegister()">+ Add New User</a>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-dark">
+          <thead>
+            <tr>
+              <th> Id </th>
+              <th> First name </th>
+              <th> Last name</th>
+              <th> Username </th>
+              <th> Email </th>
+              <th> Gender </th>
+              <th> Role </th>
+              <th> Actions </th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let user of users">
+            <tr>
+              <td>{{ user.id}} </td>
+              <td> {{ user.firstname }}</td>
+              <td> {{ user.lastname }}</td>
+              <td> {{ user.username }}</td>
+              <td> {{ user.email }} </td>
+              <td> {{ user.gender }}</td>
+              <td> {{ user.role }}</td>
+              <td>
+                <button (click)="pageUpdate(user)" type="button" class="btn btn-warning btn-rounded btn-fw">Update</button>
+                &nbsp;&nbsp;
+                <button (click)="pageDelete()" type="button" class="btn btn-danger btn-rounded btn-fw">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- fin Affichage -->
+
+
+
+<!-- Formulaire d'ajout d'un utilisateur -->
+<div class="col-12 grid-margin">
+  <div class="card">
+    <div class="card-body" *ngIf="page==='register'">
+      <h4 class="card-title">Add User</h4>
+      <form class="form-sample">
+        <p class="card-description"> Personal info </p>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">First Name</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" [(ngModel)]="newUSer.firstname" name="firstname"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Last Name</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" [(ngModel)]="newUSer.lastname" name="lastname" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Username</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" [(ngModel)]="newUSer.username" name="username"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Email</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" [(ngModel)]="newUSer.email" name="email" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Gender</label>
+              <div class="col-sm-9">
+                <select class="form-control" [(ngModel)]="newUSer.gender" name="gender">
+                  <option>Male</option>
+                  <option>Female</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Role</label>
+              <div class="col-sm-9">
+                <select class="form-control" [(ngModel)]="newUSer.role" name="role">
+                  <option>Employee</option>
+                  <option>Trainee</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </form>
+      <div class="text-center"  style="margin-top: 40px;">
+        <button (click)="registerUser()" type="button" class="btn btn-success btn-rounded btn-fw">Submit</button>
+         <button (click)="goBack()" type="button" class="btn btn-link btn-rounded btn-fw">Go back</button>
+    </div>
+      </div>
+
+  </div>
+</div>
+<!-- fin Formulaire -->
+
+
+
+<!-- Formulaire de mise a jour d'un utilisateur -->
+<div class="col-12 grid-margin">
+  <div class="card">
+    <div class="card-body" *ngIf="userSelect">
+      <h4 class="card-title">Update User</h4>
+      <form class="form-sample">
+        <p class="card-description"> Personal info </p>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">First Name</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" [(ngModel)]="userSelect.firstname" name="firstname"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Last Name</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" [(ngModel)]="userSelect.lastname" name="lastname" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Username</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" [(ngModel)]="userSelect.username" name="username"/>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Email</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" [(ngModel)]="userSelect.email" name="email"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Gender</label>
+              <div class="col-sm-9">
+                <select class="form-control" [(ngModel)]="userSelect.gender" name="gender">
+                  <option>Male</option>
+                  <option>Female</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Role</label>
+              <div class="col-sm-9">
+                <select class="form-control" [(ngModel)]="userSelect.role" name="role">
+                  <option>Employee</option>
+                  <option>Trainee</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </form>
+      <div class="text-center"  style="margin-top: 40px;">
+        <button (click)="updateUser(userSelect.id, userSelect)" type="button" class="btn btn-success btn-rounded btn-fw">Update info</button>
+        <button (click)="goBack()" type="button" class="btn btn-link btn-rounded btn-fw">Go back</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- fin Formulaire -->
+
+
+
+<!-- Confirmation de suppression d'un utilisateur -->
+<div *ngIf="page === 'delete'">
+  <h2>Delete User</h2>
+  <p>Do you really want to delete this user ?</p>
+  <div *ngFor="let user of users">
+      <p>{{ user.username }}</p>
+      <div class="text-center"  style="margin-top: 40px;">
+        <button (click)="deleteUser(user.id)" type="button" class="btn btn-info btn-rounded btn-fw">Confirm</button>
+        <button (click)="goBack()" type="button" class="btn btn-link btn-rounded btn-fw">Go back</button>
+      </div>
+  </div>
+</div>
+<!-- fin supprission -->
